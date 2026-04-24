@@ -622,6 +622,88 @@ section { padding: 100px 0; position: relative; }
   .service h3 { padding-right: 0; }
   .service-badge { position: static; display: inline-block; margin-bottom: 12px; }
 }
+
+/* === ANIMATIONS === */
+
+/* Orbiting dots around hero photo */
+.hero-photo { position: relative; }
+.hero-photo-orbit {
+  position: absolute; inset: -40px;
+  pointer-events: none;
+  z-index: 2;
+}
+.hero-photo-orbit::before,
+.hero-photo-orbit::after,
+.hero-photo-orbit .orbit-dot {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform-origin: 0 0;
+  width: 14px; height: 14px; border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(107,78,154,0.25);
+}
+.hero-photo-orbit::before {
+  background: var(--violet);
+  animation: orbit1 22s linear infinite;
+}
+.hero-photo-orbit::after {
+  background: var(--mint);
+  width: 10px; height: 10px;
+  animation: orbit2 28s linear infinite reverse;
+}
+.hero-photo-orbit .orbit-dot {
+  background: var(--sky);
+  width: 8px; height: 8px;
+  animation: orbit3 18s linear infinite;
+}
+@keyframes orbit1 {
+  from { transform: rotate(0deg) translateX(240px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(240px) rotate(-360deg); }
+}
+@keyframes orbit2 {
+  from { transform: rotate(120deg) translateX(220px) rotate(-120deg); }
+  to   { transform: rotate(480deg) translateX(220px) rotate(-480deg); }
+}
+@keyframes orbit3 {
+  from { transform: rotate(240deg) translateX(260px) rotate(-240deg); }
+  to   { transform: rotate(600deg) translateX(260px) rotate(-600deg); }
+}
+
+/* Shimmer on gradient heading */
+.hero h1 .hl {
+  background: linear-gradient(120deg, var(--violet-deep) 0%, var(--violet) 40%, #E4DCF2 50%, var(--violet) 60%, var(--sky) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Floating blob movement */
+.hero::before {
+  animation: float 14s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-40px, 30px) scale(1.1); }
+}
+
+/* Magnetic tilt on services */
+.service { transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease; transform-style: preserve-3d; }
+
+/* Dampen orbit on mobile — too busy */
+@media (max-width: 960px) {
+  .hero-photo-orbit { display: none; }
+}
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo-orbit, .hero::before { animation: none !important; }
+  .hero h1 .hl { animation: none; background-size: 100% auto; }
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -653,7 +735,7 @@ section { padding: 100px 0; position: relative; }
 <!-- HERO -->
 <section class="hero">
   <div class="container hero-inner">
-    <div class="hero-photo reveal"></div>
+    <div class="hero-photo reveal"><div class="hero-photo-orbit"><span class="orbit-dot"></span></div></div>
     <div class="reveal">
       <div class="tag"><span class="dot"></span>Приймаю нових клієнток · онлайн</div>
       <h1>Психологиня для жінок, які проживають <span class="hl">втрату, травму, сором</span></h1>
@@ -1213,6 +1295,56 @@ async function submitForm(ev) {
     btn.disabled = false;
     btn.textContent = 'Надіслати заявку';
   }
+}
+
+
+/* ===== Counter animation on hero stats ===== */
+function animateCounter(el, target, duration = 1500, suffix = '') {
+  const startVal = 0;
+  const start = performance.now();
+  const tick = (now) => {
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+    const val = Math.round(startVal + (target - startVal) * eased);
+    el.textContent = val + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = el.dataset.finalText || (target + suffix);
+  };
+  requestAnimationFrame(tick);
+}
+
+document.querySelectorAll('.hero-stat-num').forEach(el => {
+  const text = el.textContent.trim();
+  const num = parseInt(text.match(/\d+/) || [0], 10);
+  const suffix = text.replace(/\d+/, '').trim();
+  el.dataset.finalText = text;
+  el.textContent = '0' + (suffix ? ' ' + suffix : '');
+});
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const finalText = el.dataset.finalText || '';
+    const num = parseInt(finalText.match(/\d+/) || [0], 10);
+    animateCounter(el, num, 1400);
+    statsObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.hero-stat-num').forEach(el => statsObserver.observe(el));
+
+/* ===== Magnetic tilt on .service cards ===== */
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.querySelectorAll('.service').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      const y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      card.style.transform = `translateY(-3px) rotateX(${(-y * 2).toFixed(2)}deg) rotateY(${(x * 2).toFixed(2)}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
 }
 </script>
 
