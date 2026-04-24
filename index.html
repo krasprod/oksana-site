@@ -139,9 +139,10 @@ section { padding: 100px 0; position: relative; }
   pointer-events: none;
 }
 .hero-inner {
-  display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px;
-  align-items: center; position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 72px;
+  align-items: stretch; position: relative; z-index: 1;
 }
+.hero-inner > .reveal { display: flex; flex-direction: column; justify-content: center; }
 .hero .tag {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 8px 18px; border-radius: 999px;
@@ -178,20 +179,21 @@ section { padding: 100px 0; position: relative; }
 
 /* Photo */
 .hero-photo, .about-photo {
-  aspect-ratio: 1/1.2;
   border-radius: var(--r-lg);
   overflow: hidden;
   position: relative;
   background-size: cover;
-  background-position: center top;
+  background-position: center center;
   box-shadow: var(--shadow);
+  min-height: 640px;
+  height: 100%;
 }
 .hero-photo, .about-photo { filter: contrast(1.08) saturate(1.1); }
 .hero-photo { background-image: url('img/oksana-hero.jpg'); }
 .about-photo { background-image: url('img/oksana-about.jpg'); }
 
 
-.about-photo { aspect-ratio: 1/1.2; }
+.about-photo { min-height: 560px; }
 .about-photo-placeholder { display: none; }
 .photo-badge { display: none; }
 
@@ -249,7 +251,8 @@ section { padding: 100px 0; position: relative; }
 
 /* About */
 .about-section { background: var(--white); }
-.about-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 56px; align-items: center; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: stretch; }
+.about-text { display: flex; flex-direction: column; justify-content: center; }
 .about-text p { font-size: 16.5px; color: var(--ink-2); line-height: 1.7; margin-bottom: 16px; }
 .about-text p.muted { color: var(--muted); }
 .about-text blockquote {
@@ -486,7 +489,7 @@ section { padding: 100px 0; position: relative; }
   background: radial-gradient(circle, var(--violet) 0%, transparent 70%);
   opacity: 0.1; filter: blur(40px);
 }
-.contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: start; position: relative; z-index: 1; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; position: relative; z-index: 1; }
 .contact-left h2 { margin-bottom: 18px; }
 .contact-left p { font-size: 16.5px; color: var(--ink-2); line-height: 1.65; margin-bottom: 16px; }
 .contact-channels { margin-top: 34px; display: flex; flex-direction: column; gap: 10px; }
