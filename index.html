@@ -763,6 +763,134 @@ section { padding: 100px 0; position: relative; }
   .btn-primary.btn-glow { animation: none; }
 }
 
+
+/* === Form input animations === */
+.form-group { position: relative; }
+.form-group input, .form-group textarea {
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+/* Animated bottom line — expands from center on focus */
+.form-group { padding-bottom: 0; }
+.form-group::after {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: 0;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, var(--violet), var(--mint));
+  border-radius: 2px;
+  transition: all 0.4s ease;
+  opacity: 0;
+}
+.form-group:focus-within::after {
+  left: 0; width: 100%; opacity: 1;
+}
+/* Label animates up-right accent on focus */
+.form-group label {
+  transition: color 0.3s ease, transform 0.3s ease;
+  transform-origin: left center;
+}
+.form-group:focus-within label {
+  color: var(--violet-deep);
+  transform: translateY(-2px);
+}
+.form-group label .req {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.form-group:focus-within label .req {
+  transform: scale(1.3) rotate(8deg);
+}
+/* Input focus glow pulse */
+@keyframes input-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px var(--violet-soft); }
+  50% { box-shadow: 0 0 0 6px rgba(155,126,199,0.18); }
+}
+.form-group input:focus, .form-group textarea:focus {
+  animation: input-pulse 2.5s ease-in-out infinite;
+}
+/* Custom animated checkbox */
+.form-consent {
+  transition: color 0.25s ease;
+}
+.form-consent:hover { color: var(--ink-2); }
+.form-consent input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px; height: 18px; border-radius: 5px;
+  border: 1.5px solid var(--violet-soft);
+  background: var(--white);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+  margin-top: 3px;
+}
+.form-consent input[type="checkbox"]:hover { border-color: var(--violet); }
+.form-consent input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, var(--violet), var(--violet-deep));
+  border-color: var(--violet-deep);
+  animation: check-pop 0.35s ease;
+}
+.form-consent input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px; top: 1px;
+  width: 5px; height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  animation: check-draw 0.3s ease 0.1s both;
+}
+@keyframes check-pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+@keyframes check-draw {
+  from { opacity: 0; height: 0; }
+  to   { opacity: 1; height: 10px; }
+}
+/* Submit button — layered gradient shift on hover */
+.btn-submit {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--violet) 0%, var(--violet-deep) 50%, var(--violet) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  transition: background-position 0.5s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.btn-submit:hover:not(:disabled) {
+  background-position: 100% 50%;
+}
+.btn-submit::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+  transition: left 0.6s ease;
+}
+.btn-submit:hover:not(:disabled)::after { left: 130%; }
+/* Shake on error */
+.form-card.shake {
+  animation: shake 0.5s ease;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+/* Floating hint micro-animation */
+.form-hint { transition: color 0.3s ease, transform 0.3s ease; }
+.form-group:focus-within .form-hint {
+  color: var(--violet-deep);
+}
+@media (prefers-reduced-motion: reduce) {
+  .form-group::after,
+  .form-group:focus-within label,
+  .form-group input:focus, .form-group textarea:focus { animation: none !important; transition: none !important; }
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1429,6 +1557,14 @@ document.querySelectorAll('.cert').forEach(a => {
     openLightbox(href);
   });
   a.removeAttribute('target');
+});
+
+/* Form shake on invalid submit */
+document.querySelectorAll('form.form-card').forEach(form => {
+  form.addEventListener('invalid', (e) => {
+    form.classList.add('shake');
+    setTimeout(() => form.classList.remove('shake'), 500);
+  }, true);
 });
 </script>
 
