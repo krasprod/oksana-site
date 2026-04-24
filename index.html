@@ -189,18 +189,11 @@ section { padding: 100px 0; position: relative; }
   background-position: center top;
   box-shadow: var(--shadow);
 }
+.hero-photo, .about-photo { filter: contrast(1.08) saturate(1.1); }
 .hero-photo { background-image: url('img/oksana-hero.jpg'); }
 .about-photo { background-image: url('img/oksana-about.jpg'); }
 
-.hero-photo::after {
-  content: '';
-  position: absolute; inset: -20px;
-  background: linear-gradient(135deg, var(--violet-soft), var(--mint-soft));
-  border-radius: var(--r-lg);
-  z-index: -1;
-  filter: blur(24px);
-  opacity: 0.6;
-}
+
 .about-photo { aspect-ratio: 1/1.2; }
 .about-photo-placeholder { display: none; }
 .photo-badge { display: none; }
@@ -640,7 +633,6 @@ section { padding: 100px 0; position: relative; }
 <nav class="nav">
   <div class="nav-inner">
     <div class="logo">
-      <div class="logo-mark">ОЗ</div>
       <div>
         <div>Оксана Запорожець</div>
         <div class="logo-sub">Психологиня</div>
@@ -1120,7 +1112,6 @@ section { padding: 100px 0; position: relative; }
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-brand">
-      <div class="logo-mark">ОЗ</div>
       <div>
         <div>Оксана Запорожець</div>
         <div style="font-size: 11px; opacity: 0.6; font-weight: 400;">Психологиня · Київ</div>
