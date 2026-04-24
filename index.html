@@ -902,6 +902,37 @@ section { padding: 100px 0; position: relative; }
   pointer-events: auto;
 }
 
+
+/* About — redesigned hierarchy */
+.about-name {
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1;
+  margin-bottom: 10px;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.about-role {
+  display: inline-block;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--violet-deep);
+  padding: 6px 14px;
+  background: var(--violet-soft);
+  border-radius: 999px;
+  margin-bottom: 22px;
+}
+.about-tagline {
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.45;
+  color: var(--ink-2);
+  font-weight: 500;
+  margin-bottom: 26px;
+  max-width: 540px;
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1068,7 +1099,9 @@ section { padding: 100px 0; position: relative; }
   <div class="container about-grid">
     <div class="about-text reveal">
       <div class="eyebrow">Про мене</div>
-      <h2>Оксана Запорожець. Психологиня. Людина, яка по собі знає, що таке тривожність і комплексна травма — і яка тепер має достатньо опор, щоб з цим бути</h2>
+      <h2 class="about-name">Оксана Запорожець</h2>
+      <div class="about-role">Психологиня</div>
+      <p class="about-tagline">Людина, яка по собі знає, що таке тривожність і комплексна травма — і яка тепер має достатньо опор, щоб з цим бути.</p>
       <p>
         Вітаю вас у моєму просторі.
       </p>
