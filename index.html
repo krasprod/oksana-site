@@ -891,6 +891,20 @@ section { padding: 100px 0; position: relative; }
   .form-group input:focus, .form-group textarea:focus { animation: none !important; transition: none !important; }
 }
 
+
+/* Hide nav at top of page — show after scroll */
+.nav {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  pointer-events: none;
+}
+.nav.visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1566,6 +1580,19 @@ document.querySelectorAll('form.form-card').forEach(form => {
     setTimeout(() => form.classList.remove('shake'), 500);
   }, true);
 });
+
+/* Show nav only when user scrolls down */
+(function(){
+  const nav = document.querySelector('.nav');
+  if (!nav) return;
+  const threshold = 80;
+  const toggle = () => {
+    if (window.scrollY > threshold) nav.classList.add('visible');
+    else nav.classList.remove('visible');
+  };
+  toggle();
+  window.addEventListener('scroll', toggle, { passive: true });
+})();
 </script>
 
 
