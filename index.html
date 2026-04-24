@@ -181,28 +181,17 @@ section { padding: 100px 0; position: relative; }
 
 /* Photo */
 .hero-photo, .about-photo {
-  aspect-ratio: 1/1.15;
+  aspect-ratio: 1/1.2;
   border-radius: var(--r-lg);
   overflow: hidden;
   position: relative;
-  background:
-    linear-gradient(135deg, var(--violet-soft) 0%, var(--mint-soft) 50%, var(--sky-soft) 100%),
-    var(--bg-2);
   background-size: cover;
   background-position: center top;
   box-shadow: var(--shadow);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--muted);
-  font-size: 13px;
 }
-.hero-photo::before {
-  content: '[ фото · oksana-hero.jpg ]';
-  position: absolute; inset: 24px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.4);
-  border-radius: var(--r);
-  backdrop-filter: blur(8px);
-}
+.hero-photo { background-image: url('img/oksana-hero.jpg'); }
+.about-photo { background-image: url('img/oksana-about.jpg'); }
+
 .hero-photo::after {
   content: '';
   position: absolute; inset: -20px;
@@ -213,14 +202,7 @@ section { padding: 100px 0; position: relative; }
   opacity: 0.6;
 }
 .about-photo { aspect-ratio: 1/1.2; }
-.about-photo-placeholder {
-  position: absolute; inset: 24px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.45);
-  border-radius: var(--r);
-  color: var(--muted); font-size: 13px;
-  backdrop-filter: blur(8px);
-}
+.about-photo-placeholder { display: none; }
 .photo-badge { display: none; }
 
 /* Requests */
@@ -988,7 +970,7 @@ section { padding: 100px 0; position: relative; }
     </div>
     <div class="longreads-cta">
       <p>Приєднуйтесь до Telegram-спільноти, де я публікую ці і ще десятки матеріалів. Безкоштовно.</p>
-      <a href="https://t.me/+tPbciLdacA1kNWNi" target="_blank" class="btn btn-primary">
+      <a href="https://t.me/oksana_zaporozhets_psy" target="_blank" class="btn btn-primary">
         💬 Приєднатись у Telegram
       </a>
     </div>
@@ -1076,11 +1058,11 @@ section { padding: 100px 0; position: relative; }
       </p>
 
       <div class="contact-channels">
-        <a href="https://t.me/+tPbciLdacA1kNWNi" target="_blank" class="channel">
+        <a href="https://t.me/oksana_zaporozhets_psy" target="_blank" class="channel">
           <div class="channel-ico tg">💬</div>
           <div>
-            <div class="channel-label">Telegram-спільнота</div>
-            <div class="channel-value">Приєднатись і читати мої матеріали</div>
+            <div class="channel-label">Telegram-канал</div>
+            <div class="channel-value">@oksana_zaporozhets_psy</div>
           </div>
         </a>
         <a href="https://instagram.com/oksanaarhetipmag" target="_blank" class="channel">
